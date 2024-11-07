@@ -38,6 +38,9 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { CustomCatalogPage } from './components/search/CustomCatalogPage';
 import { CustomReportPage } from './components/search/CustomReportPage/CustomReportPage';
+import { UnifiedThemeProvider } from '@backstage/theme';
+import { newTheme } from './theme/theme';
+import { CssBaseline } from '@material-ui/core';
 
 const app = createApp({
   apis,
@@ -61,6 +64,20 @@ const app = createApp({
   components: {
     SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
   },
+
+  themes: [
+    {
+      id: 'newTheme',
+      title: 'newTheme',
+      variant: 'light',
+      Provider: ({ children }) => (
+        <UnifiedThemeProvider theme={newTheme} noCssBaseline>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
+      ),
+    },
+  ],
 });
 
 const routes = (

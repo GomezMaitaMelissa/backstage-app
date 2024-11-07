@@ -7,7 +7,7 @@ import { fetchRepositoryData } from './reportService';
 import { ReportData } from '../../types';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
-
+import { toast, ToastContainer } from 'react-toastify/dist';
 
 export const ReportPage: React.FC = () => {
     const catalogApi = useApi(catalogApiRef);
@@ -23,7 +23,7 @@ export const ReportPage: React.FC = () => {
         };
 
         loadData();
-    }, []);
+    });
 
     const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newStartDate = e.target.value;
@@ -31,7 +31,7 @@ export const ReportPage: React.FC = () => {
 
         if (endDate && !validateDateRange(newStartDate, endDate)) {
             setEndDate(''); // Reiniciar endDate si no cumple el rango
-            alert('La fecha de inicio debe estar dentro de un rango de 3 meses.');
+            toast.error('La fecha de inicio debe estar dentro de un rango de 3 meses.');
         }
     };
 
@@ -41,7 +41,7 @@ export const ReportPage: React.FC = () => {
         if (validateDateRange(startDate, newEndDate)) {
             setEndDate(newEndDate);
         } else {
-            alert('La fecha de fin debe estar dentro de un rango de 3 meses desde la fecha de inicio.');
+            toast.error('La fecha de fin debe estar dentro de un rango de 3 meses desde la fecha de inicio.');
         }
     };
 
@@ -123,6 +123,7 @@ export const ReportPage: React.FC = () => {
                         value={endDate}
                         onChange={handleEndDateChange}
                     />
+                    <ToastContainer />
                 </div>
 
                 <TableContainer component={Paper}>

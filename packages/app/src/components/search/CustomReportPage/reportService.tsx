@@ -5,7 +5,9 @@ import { formatAcronym } from "../../utils";
 // Función para obtener los datos de los repositorios importados
 export const fetchRepositoryData = async (catalogApi: CatalogApi): Promise<ReportData[]> => {
   // Llama al endpoint del catálogo para obtener las entidades
-  const response = await catalogApi.getEntities();
+  const response = await catalogApi.getEntities({
+    filter: { kind: 'Component' },
+  });
 
   return response.items.map(entity => ({
     creatorName: String(entity.metadata.annotations?.['backstage.io/creatorName'] || entity.spec?.['owner'] || 'N/A'),

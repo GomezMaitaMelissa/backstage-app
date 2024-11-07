@@ -16,6 +16,8 @@ interface FilterTypeProps {
   kind: string;
 }
 
+const validKinds = ['component', 'group', 'location', 'resource', 'api', 'template'];
+
 export const FilterTypeKind = ({ kind }: FilterTypeProps) => {
   const [options, setOptions] = useState<Array<string>>([]);
   const {
@@ -25,15 +27,24 @@ export const FilterTypeKind = ({ kind }: FilterTypeProps) => {
   const catalogApi = useApi(catalogApiRef);
   const typeName = 'spec.type';
 
-  const loadEntities = async () => {
-    const response = await catalogApi.getEntities({
-      filter: { kind: [kind] }, // Usa el kind que recibe como prop
-    });
-    const typeComponents = distinctNames(
-      response.items.map(entity => nestedValue(entity, typeName)),
-    );
-    setOptions(typeComponents);
-  };
+  useEffect(() => {
+    const loadEntities = async () => {
+      if (!validKinds.includes(kind)) {
+        setOptions([]);
+        return;
+      }
+
+      const response = await catalogApi.getEntities({
+        filter: { kind: [kind] }, // Usa el kind que recibe como prop
+      });
+      const typeComponents = distinctNames(
+        response.items.map(entity => nestedValue(entity, typeName)),
+      );
+      setOptions(typeComponents);
+    };
+
+    loadEntities();
+  }, [kind, catalogApi]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const value = event.target.value as Array<string>;
@@ -44,9 +55,9 @@ export const FilterTypeKind = ({ kind }: FilterTypeProps) => {
     });
   };
 
-  useEffect(() => {
-    loadEntities();
-  });
+  if (!validKinds.includes(kind)) {
+    return null; // No renderiza nada si el kind no es válido
+  }
 
   return (
     <FormControl fullWidth>

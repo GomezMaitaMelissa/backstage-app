@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import {
   CatalogFilterLayout,
   DefaultEntityFilters,
-  EntityKindPicker,
   EntityListProvider,
   EntityOwnerPicker,
   EntityProcessingStatusPicker,
@@ -11,9 +10,10 @@ import {
   UserListPicker,
 } from '@backstage/plugin-catalog-react';
 import { Header, Page } from '@backstage/core-components';
-
-import { CatalogTable } from '@backstage/plugin-catalog';
-import { FilterTypeKind } from './CustomCatalogPicker';
+import { CustomEntityKindPicker, FilterTypeKind } from './CustomCatalogPicker';
+import { CustomCatalogTable } from './CustomCatalogTable';
+import { EntityFiltersSystem } from './EntiryFiltersSystem';
+import { EntityFiltersLocation } from './EntiryFiltersLocation';
 
 interface CustomEntityFilters extends DefaultEntityFilters {
   importance?: { value: string };
@@ -22,19 +22,24 @@ interface CustomEntityFilters extends DefaultEntityFilters {
   teamLeader?: { value: string };
 }
 
-// Mapeo de los valores `kind` a su componente correspondiente
-const kindComponentMap: Record<string, string> = {
-  component: "component",
-  group: "group",
-  location: "location",
-  resource: "resource",
-  api: "api",
-};
-
 const CustomCatalogContent = () => {
   const {
     filters: { kind },
   } = useEntityList<CustomEntityFilters>();
+
+  // Estado para controlar si se han cargado los filtros para 'system' y 'location'
+  const [hasLoadedSystem, setHasLoadedSystem] = useState(false);
+  const [hasLoadedLocation, setHasLoadedLocation] = useState(false);
+
+  useEffect(() => {
+    if (kind?.value === 'system' && !hasLoadedSystem) {
+      setHasLoadedSystem(true);
+    }
+
+    if (kind?.value === 'location' && !hasLoadedLocation) {
+      setHasLoadedLocation(true);
+    }
+  }, [kind, hasLoadedSystem, hasLoadedLocation]);
 
   return (
     <CatalogFilterLayout>
@@ -42,19 +47,20 @@ const CustomCatalogContent = () => {
         <Grid container spacing={3} alignItems="flex-start">
           {/* Selector de Kind */}
           <Grid item md={10}>
-            <EntityKindPicker />
+            <CustomEntityKindPicker />
           </Grid>
           {/* Selector de Type */}
           <Grid item md={10}>
-            {kind?.value && kindComponentMap[kind.value] && (
-              <FilterTypeKind kind={kindComponentMap[kind.value]} />
-            )}
+            <FilterTypeKind kind={String(kind?.value)} />
           </Grid>
 
           {/* Barra de Usuario */}
           <Grid item md={10}>
             <UserListPicker />
           </Grid>
+
+          {kind?.value === 'system' &&<EntityFiltersSystem />}
+          {kind?.value === 'location' && <EntityFiltersLocation />}
           {kind?.value !== 'system' && kind?.value !== 'location' && (
             <>
               <Grid item md={10}>
@@ -68,7 +74,7 @@ const CustomCatalogContent = () => {
         </Grid>
       </CatalogFilterLayout.Filters>
       <CatalogFilterLayout.Content>
-        <CatalogTable />
+        <CustomCatalogTable />
       </CatalogFilterLayout.Content>
     </CatalogFilterLayout>
   );
