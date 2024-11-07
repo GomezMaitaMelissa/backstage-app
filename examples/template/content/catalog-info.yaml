@@ -2,6 +2,14 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: ${{ values.name | dump }}
+  annotations:
+    backstage.io/creatorName: ${{ parameters.creatorName }}
+    backstage.io/crewName: ${{ parameters.crewName }}
+    backstage.io/applicationName: ${{ parameters.applicationName }}
+    backstage.io/applicationLetter: ${{ parameters.applicationLetter }}
+    backstage.io/squad: ${{ parameters.squad }}
+    backstage.io/creationDate: '${{ parameters.creationDate }}'
+    backstage.io/repositoryName: ${{ parameters.repositoryName }}
 spec:
   type: service
   owner: user:guest
