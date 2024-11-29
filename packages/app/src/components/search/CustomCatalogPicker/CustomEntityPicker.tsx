@@ -55,7 +55,17 @@ export const CustomEntityKindPicker = () => {
   });
 
   useEffect(() => {
-    if (!allowed) {
+    if (allowed) {
+      setAllowedKinds([
+        'component',
+        'domain',
+        'group',
+        'location',
+        'resource',
+        'system',
+        'user',
+      ]);
+    } else {
       setAllowedKinds(prevKinds =>
         prevKinds.filter(kind => kind !== 'location'),
       );

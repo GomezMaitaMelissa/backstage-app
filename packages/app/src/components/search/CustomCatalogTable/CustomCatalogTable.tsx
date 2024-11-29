@@ -15,21 +15,25 @@ export const CustomCatalogTable = () => {
   } = useEntityList<CustomFilters>();
 
   const additionalColumns: TableColumn<CatalogTableRow>[] = [
-    {...CustomNameColumn, width:'40%'},
-    {...CustomDomainColumn, width:'12%'},
-    {...CustomOwnerColumn, width:'12%'},
-    {...CustomTagsColumn, width:'20%'},
-    {...CustomTeamLeaderColumn, width:'20%'},
+    CustomNameColumn,
+    CustomDomainColumn,
+    CustomOwnerColumn,
+    CustomTagsColumn,
+    CustomTeamLeaderColumn,
   ];
 
   return (
     <>
       {kind?.value === 'system' && (
-        <CatalogTable
-          columns={additionalColumns} // Pasar las columnas adicionales
-        />
+        <div style={{ minWidth: '800px', overflowX: 'auto' }}>
+          <CatalogTable columns={additionalColumns} /> 
+        </div>
       )}
-      {kind?.value !== 'system' && <CatalogTable />}
+      {kind?.value !== 'system' && (
+        <div style={{ minWidth: '800px', overflowX: 'auto' }}>
+          <CatalogTable />
+        </div>
+      )}
     </>
   );
 };

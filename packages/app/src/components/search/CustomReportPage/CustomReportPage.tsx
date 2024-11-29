@@ -7,7 +7,6 @@ import { fetchRepositoryData } from './reportService';
 import { ReportData } from '../../types';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
-import { toast, ToastContainer } from 'react-toastify/dist';
 
 export const ReportPage: React.FC = () => {
     const catalogApi = useApi(catalogApiRef);
@@ -15,7 +14,6 @@ export const ReportPage: React.FC = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-    // Usar useEffect para llamar al servicio al montar el componente
     useEffect(() => {
         const loadData = async () => {
             const repoData = await fetchRepositoryData(catalogApi);
@@ -31,7 +29,7 @@ export const ReportPage: React.FC = () => {
 
         if (endDate && !validateDateRange(newStartDate, endDate)) {
             setEndDate(''); // Reiniciar endDate si no cumple el rango
-            toast.error('La fecha de inicio debe estar dentro de un rango de 3 meses.');
+            // alert('La fecha de inicio debe estar dentro de un rango de 3 meses.');
         }
     };
 
@@ -41,7 +39,7 @@ export const ReportPage: React.FC = () => {
         if (validateDateRange(startDate, newEndDate)) {
             setEndDate(newEndDate);
         } else {
-            toast.error('La fecha de fin debe estar dentro de un rango de 3 meses desde la fecha de inicio.');
+            // alert('La fecha de fin debe estar dentro de un rango de 3 meses desde la fecha de inicio.');
         }
     };
 
@@ -123,19 +121,18 @@ export const ReportPage: React.FC = () => {
                         value={endDate}
                         onChange={handleEndDateChange}
                     />
-                    <ToastContainer />
                 </div>
 
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{width:'180px'}}>Nombre del Creador</TableCell>
-                                <TableCell style={{width:'180px'}}>Nombre de Crew</TableCell>
+                                <TableCell style={{ width: '180px' }}>Nombre del Creador</TableCell>
+                                <TableCell style={{ width: '180px' }}>Nombre de Crew</TableCell>
                                 <TableCell>Nombre de la Aplicación</TableCell>
-                                <TableCell style={{width:'120px'}}>Sigla de Aplicación</TableCell>
-                                <TableCell style={{width:'120px'}}>Squad</TableCell>
-                                <TableCell style={{width:'150px'}}>Fecha de Creación</TableCell>
+                                <TableCell style={{ width: '120px' }}>Sigla de Aplicación</TableCell>
+                                <TableCell style={{ width: '120px' }}>Squad</TableCell>
+                                <TableCell style={{ width: '150px' }}>Fecha de Creación</TableCell>
                                 <TableCell>Nombre del Repositorio</TableCell>
                             </TableRow>
                         </TableHead>
