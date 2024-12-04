@@ -41,9 +41,14 @@ import { CustomReportPage } from './components/search/CustomReportPage/CustomRep
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { newTheme } from './theme/theme';
 import { CssBaseline } from '@material-ui/core';
+import { githubActionsPlugin } from '@backstage-community/plugin-github-actions';
 
 const app = createApp({
   apis,
+  plugins: [
+    githubActionsPlugin,
+  ],
+
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,

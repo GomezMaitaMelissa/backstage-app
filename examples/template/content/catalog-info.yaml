@@ -10,6 +10,7 @@ metadata:
     backstage.io/squad: ${{ parameters.squad }}
     backstage.io/creationDate: '${{ parameters.creationDate }}'
     backstage.io/repositoryName: ${{ parameters.repositoryName }}
+    github.com/project-slug: 'backstage/backstage'
 spec:
   type: service
   owner: user:guest

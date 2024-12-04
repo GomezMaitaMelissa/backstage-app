@@ -58,6 +58,9 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityGithubActionsContent, EntityLatestGithubActionRunCard, EntityLatestGithubActionsForBranchCard, EntityRecentGithubActionsRunsCard } from '@backstage-community/plugin-github-actions';
+
+
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -94,6 +97,28 @@ const cicdContent = (
           </Button>
         }
       />
+    </EntitySwitch.Case>
+  </EntitySwitch>
+);
+
+const githubActionsContent = (
+  <EntitySwitch>
+    <EntitySwitch.Case>
+      {/* <EntitySwitch.Case if={isGithubActionsAvailable}> */}
+      <Grid container spacing={3}>
+        <Grid container item md={12}>
+          <EntityGithubActionsContent/>
+        </Grid>
+        <Grid item md={6}>
+          <EntityLatestGithubActionsForBranchCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6}>
+          <EntityRecentGithubActionsRunsCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6}>
+          <EntityLatestGithubActionRunCard variant="gridItem" />
+        </Grid>
+      </Grid>
     </EntitySwitch.Case>
   </EntitySwitch>
 );
@@ -155,6 +180,10 @@ const serviceEntityPage = (
       {cicdContent}
     </EntityLayout.Route>
 
+    <EntityLayout.Route path="/github-actions" title="GitHub Actions">
+      <EntityGithubActionsContent view='cards' />
+    </EntityLayout.Route>
+
     <EntityLayout.Route
       path="/kubernetes"
       title="Kubernetes"
@@ -199,6 +228,13 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      path="/github-actions"
+      title="GitHub Actions"
+    >
+      {githubActionsContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route
