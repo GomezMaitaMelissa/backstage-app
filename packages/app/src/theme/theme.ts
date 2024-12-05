@@ -38,20 +38,20 @@ export const newTheme = createUnifiedTheme({
 
     BackstageInfoCard: {
       styleOverrides: {
-        // header: () => ({
-        //   color: '#FFFFFF',
-        //   backgroundColor: '#00A94F',
-        //   border: 'none',
-        //   fontFamily: 'monospace',
-        // }),
-        // headerTitle: () => ({
-        //   fontFamily: 'monospace',
-        //   color: '#FFFFFF',
-        // }),
-        // headerSubheader: () => ({
-        //   fontFamily: 'monospace',
-        //   color: '#FFFFFF',
-        // }),
+        header: () => ({
+          color: '#FFFFFF',
+          backgroundColor: '#00A94F',
+          border: 'none',
+          fontFamily: 'monospace',
+        }),
+        headerTitle: () => ({
+          fontFamily: 'monospace',
+          color: '#FFFFFF',
+        }),
+        headerSubheader: () => ({
+          fontFamily: 'monospace',
+          color: '#FFFFFF',
+        }),
       },
     },
 

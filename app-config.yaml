@@ -70,8 +70,11 @@ auth:
     guest: {}
     github:
       development:
-        clientId: ${GITHUB_CLIENT_ID}
-        clientSecret: ${GITHUB_CLIENT_SECRET}
+        token: ${GITHUB_TOKEN}
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        callbackUrl: http://localhost:7007/api/auth/github/handler/frame
+        scopes: ['read:user, repo', 'profile:email']
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
