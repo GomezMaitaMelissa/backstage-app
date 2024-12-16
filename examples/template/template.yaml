@@ -8,6 +8,9 @@ metadata:
 spec:
   owner: user:guest
   type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
   parameters:
     - title: Fill in some steps
       required:
@@ -25,6 +28,8 @@ spec:
           type: string
           description: Unique name of the component
           ui:autofocus: true
+          ui:options:
+            rows: 5
         creatorName:
           title: Creator Name
           type: string
@@ -66,7 +71,11 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
   steps:
+    # Each step executes an action, in this case one templates files into the working directory.
     - id: fetch-base
       name: Fetch Base
       action: fetch:template
@@ -75,6 +84,7 @@ spec:
         values:
           name: ${{ parameters.name }}
 
+    # This step publishes the contents of the working directory to GitHub.
     - id: publish
       name: Publish
       action: publish:github
@@ -83,6 +93,7 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 
+    # The final step is to register our new component in the catalog.
     - id: register
       name: Register
       action: catalog:register
@@ -90,6 +101,7 @@ spec:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
+  # Outputs are displayed to the user after a successful execution of the template.
   output:
     links:
       - title: Repository

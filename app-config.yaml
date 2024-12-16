@@ -73,8 +73,8 @@ auth:
         token: ${GITHUB_TOKEN}
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-        callbackUrl: http://localhost:7007/api/auth/github/handler/frame
-        scopes: ['read:user, repo', 'profile:email']
+        # callbackUrl: http://localhost:7007/api/auth/github/handler/frame
+        # scopes: ['read:user, repo', 'profile:email']
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -84,7 +84,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Domain, Resource, Location, User, Group, Template]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
